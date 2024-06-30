@@ -9,6 +9,7 @@ import pprint
 load_dotenv()
 
 from leetcode_scraper import LeetcodeScraper
+import io
 
 START_PAGE, END_PAGE = range(2)
 
@@ -70,11 +71,18 @@ async def end_page(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     filename = f'rankings_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv'
     
     # Save DataFrame to CSV file
-    df_filtered.to_csv(filename, index=False)
+    # df_filtered.to_csv(filename, index=False)
     
     # Send CSV file to the user
-    with open(filename, 'rb') as file:
-        await update.message.reply_document(document=file, filename=filename)
+    # Create a BytesIO object
+    file_obj = io.BytesIO()
+
+    # Save DataFrame to the BytesIO object
+    df_filtered.to_csv(file_obj, index=False)
+    file_obj.seek(0)  # Reset the file position to the beginning
+
+    # Send the BytesIO object as a document
+    await update.message.reply_document(document=file_obj, filename=filename)
 
     # Update the last scrape time for the user
     user_id = update.message.from_user.id
