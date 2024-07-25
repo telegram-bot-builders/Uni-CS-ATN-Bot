@@ -50,4 +50,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD python tele_bot_intfc.py
+CMD python bot.py
