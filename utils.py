@@ -35,10 +35,11 @@ def get_narrative_list():
 
 async def send_to_telegram(message, chat_id="-1002163164940"):
     bot = Bot(token=TOKEN)
-    text = f"📙 *Affirmative Thought Narrative*"
+    text = f"📙 *Affirmative Thought Narrative*\n"
     message_lines = [
         text,
         f"**`{message}`**\n",
+        f"**Hit up @AutoNate for more custom support.**\n",
     ]
     message = '\n'.join(message_lines)
     await bot.send_message(chat_id=chat_id, text=message, parse_mode="MarkdownV2")
